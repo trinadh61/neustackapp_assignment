@@ -15,7 +15,8 @@ fs.readdirSync(__dirname).filter(file =>
     db[modelname.name] = modelname;
 
 })
-
-console.log(db)
+db.sequelize = sequelize
+db.Sequelize = Sequelize
+sequelize.sync()
 
 module.exports = db;
