@@ -1,4 +1,3 @@
-module.exports = orders;
 
 
 
@@ -30,3 +29,6 @@ const orders = (sequelize, DataTypes) => {
         tableName : "orders"
     });
 }
+
+
+module.exports = orders;

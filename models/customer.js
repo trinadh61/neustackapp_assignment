@@ -1,4 +1,3 @@
-module.exports = customer;
 
 // coupon_last_generated -> to check while generating coupons
 // coupon_count -> no of times a coupon can be applied 
@@ -15,10 +14,12 @@ const customer = (sequelize, DataTypes) => {
             allowNull : false,
         },
         coupon_last_generated : {
-            type : DataTypes.DATETIME,
+            type : DataTypes.DATE,
             allowNull : false,
         }
     }, {
         tableName : "customers"
     });
 }
+
+module.exports = customer;
