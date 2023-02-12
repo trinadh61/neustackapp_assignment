@@ -19,6 +19,17 @@ const verifyCouponGeneration = async(userDetails) => {
 }
 
 
+const verifyCouponCode = async(userDetails, new_coupon) => {
+
+    if(new_coupon || userDetails.coupon_count != 0){
+        return new_coupon ? userDetails.coupon_count+1 : userDetails.coupon_count
+    }
+
+    return null;
+}
+
+
 exports.default = {
-    verifyCouponGeneration
+    verifyCouponGeneration,
+    verifyCouponCode
 }

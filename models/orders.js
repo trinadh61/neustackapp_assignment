@@ -11,6 +11,7 @@ const orders = (sequelize, DataTypes) => {
         status : {
             type : DataTypes.ENUM("success", "cancelled"),
             allowNull : false,
+            defaultValue : "success"
         },
         customerId : {
             type : DataTypes.INTEGER,
@@ -22,7 +23,11 @@ const orders = (sequelize, DataTypes) => {
             default : 0
         },
         total_price : {
-            type : DataTypes.TEXT,
+            type : DataTypes.INTEGER,
+            allowNull : false,
+        },
+        items : {
+            type : DataTypes.STRING,
             allowNull : false,
         }
     }, {
