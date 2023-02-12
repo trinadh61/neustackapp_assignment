@@ -12,6 +12,7 @@ const customer = (sequelize, DataTypes) => {
         coupon_count : {
             type : DataTypes.INTEGER,
             allowNull : false,
+            defaultValue : 0,
         },
         coupon_last_generated : {
             type : DataTypes.DATE,

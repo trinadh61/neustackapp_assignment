@@ -6,6 +6,6 @@
     "dialect": "mysql",
     "port":"3306"
 },
-
-"auth_privatekey":"cdae2f0a-767a-452d-a76b-50a4b706c7a5"
+"coupon_regeneraration_day_count" : 2,
+"coupon_code" : "NTHORDERCOUPON"
 }
