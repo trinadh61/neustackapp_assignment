@@ -1,4 +1,4 @@
-const { Sequelize } = require("sequelize");
+const { Sequelize, where } = require("sequelize");
 const db = require("../models")
 const { verifyCouponGeneration, verifyCouponCode } = require('./couponService')
 const coupon_code = require('../config/config.json')["coupon_code"]
@@ -85,10 +85,29 @@ const complete_transaction = async(req) => {
     } catch (error) {
         return {success : false, message : error.toString()}
     }
+}
 
 
-
-
+const getOrders = async(req) =>{
+    try {
+        let {order_id, customer_id} = req.body;
+    
+        let whereObject = {
+            customer_id : customer_id
+        }
+    
+        if(order_id)
+        whereObject.id = order_id;
+        
+        let order_details = db.orders.findAll({
+            where : whereObject
+        })
+    
+        return {success : true, data : order_details}
+    
+    } catch (error) {
+        return {success : false, message : error.toString()}
+    }
 
 
 }
