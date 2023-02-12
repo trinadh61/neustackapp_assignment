@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 const body_parser = require('body-parser')
-const db = require('./models')
+const order_router = require('./controllers/orderController')
 
 app.listen(8080, (error) => {
     if(error)
@@ -12,4 +12,5 @@ app.listen(8080, (error) => {
 })
 
 app.use(body_parser.json());
-app.use(body_parser.urlencoded({extended:true}))
+app.use(body_parser.urlencoded({extended:true}));
+app.use('/orders', order_router);

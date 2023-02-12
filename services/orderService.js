@@ -66,7 +66,7 @@ const complete_transaction = async(req) => {
         
             let customer_update_object = {
                 coupon_count : coupon_count,
-                coupon_last_generated : new_coupon ? Date.now() : userDetails.coupon_last_generated
+                coupon_last_generated : body.new_coupon ? Date.now() : userDetails.coupon_last_generated
             }
             if((!body.coupon_applied && body.coupon_applied == true) || body.new_coupon){
                 db.customer.update(customer_update_object, {
@@ -88,7 +88,7 @@ const complete_transaction = async(req) => {
 }
 
 
-const getOrders = async(req) =>{
+const get_orders = async(req) =>{
     try {
         let {order_id, customer_id} = req.body;
     
@@ -110,4 +110,8 @@ const getOrders = async(req) =>{
     }
 
 
+}
+
+module.exports = {
+    get_orders, complete_transaction, checkout
 }
