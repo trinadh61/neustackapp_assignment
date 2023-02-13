@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const orderService = require('../services/orderService')
 
-router.get('/checkout', (req, res) => {
+router.post('/checkout', async (req, res) => {
 
     let {items, customer_id} = req.body;
 
@@ -13,7 +13,7 @@ router.get('/checkout', (req, res) => {
         return res.status(403).json({message : "User Id is not found"})
     }
 
-    let {success, data, message} = orderService.checkout(req);
+    let {success, data, message} = await orderService.checkout(req);
 
     if(success){
         return res.status(200).json({success, data})
@@ -25,9 +25,9 @@ router.get('/checkout', (req, res) => {
 })
 
 
-router.get('/complete_transaction', (req, res) => {
+router.post('/complete_transaction', async(req, res) => {
 
-    let {items, customer_id, total_price} = req.body;
+    let {items, customer_id, total_price, new_coupon} = req.body;
 
     let error_list = [];
 
@@ -43,11 +43,13 @@ router.get('/complete_transaction', (req, res) => {
         error_list.push("Total Price")
     }
 
+
+
     if(error_list.length !== 0)
     return res.status(403).json({message : `${error_list.join(', ')} is Invalid/Not Present`, success : false})
 
 
-    let {success, data, message} = orderService.complete_transaction(req);
+    let {success, data, message} = await orderService.complete_transaction(req);
 
     if(success){
         return res.status(200).json({success, data, message})
@@ -60,7 +62,7 @@ router.get('/complete_transaction', (req, res) => {
 
 
 
-router.get('/getOrders', (req, res) => {
+router.get('/get_orders', async(req, res) => {
 
     let {customer_id} = req.body;
 
@@ -75,7 +77,7 @@ router.get('/getOrders', (req, res) => {
     return res.status(403).json({message : `${error_list.join(', ')} is Invalid/Not Present`, success : false})
 
 
-    let {success, data, message} = orderService.get_orders(req);
+    let {success, data, message} = await orderService.get_orders(req);
 
     if(success){
         return res.status(200).json({success, data})

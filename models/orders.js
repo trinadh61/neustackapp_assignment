@@ -20,7 +20,7 @@ const orders = (sequelize, DataTypes) => {
         discount : {
             type : DataTypes.INTEGER,
             allowNull : false,
-            default : 0
+            defaultValue : 0
         },
         total_price : {
             type : DataTypes.INTEGER,

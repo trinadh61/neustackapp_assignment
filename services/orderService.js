@@ -14,7 +14,7 @@ const checkout = async (req) => {
             }
         })
 
-        const new_coupon = verifyCouponGeneration(orders_post_last_coupon);
+        const new_coupon =await  verifyCouponGeneration(userDetails);
 
         const items = body.items;
         let total_price = items.reduce((total, item) => {
@@ -32,7 +32,7 @@ const checkout = async (req) => {
 
         return { success: true, data: data }
     } catch (error) {
-        return { success: false, message: error.toString() }
+        return { success: false, message: error.message }
     }
 }
 
@@ -44,11 +44,21 @@ const complete_transaction = async(req) => {
             customerId : body.customer_id,
             discount : body.discount_percentage,
             total_price : body.total_price,
-            items : items.map(item => item.id).join(",")
+            items : body.items.map(item => item.id).join(",")
         }
+
+        const userDetails = await db.customer.findOne({
+            where: {
+                id: body.customer_id
+            }
+        })
+
+        const new_coupon = await  verifyCouponGeneration(userDetails);
+
+
         let coupon_count;
-        if(!body.coupon_applied && body.coupon_applied == true){
-            coupon_count = verifyCouponCode(userDetails, body.new_coupon);
+        if(body.coupon_applied && body.coupon_applied == true){
+            coupon_count = verifyCouponCode(userDetails, new_coupon);
     
             if(!coupon_count || coupon_count == 0){
             return {success : false, message : "Coupon Code not Found"}
@@ -57,7 +67,7 @@ const complete_transaction = async(req) => {
                 coupon_count = coupon_count -1;
             }
         }
-        else if(body.new_coupon){
+        else if(new_coupon){
             coupon_count = userDetails.coupon_count + 1;
         }
     
@@ -66,9 +76,9 @@ const complete_transaction = async(req) => {
         
             let customer_update_object = {
                 coupon_count : coupon_count,
-                coupon_last_generated : body.new_coupon ? Date.now() : userDetails.coupon_last_generated
+                coupon_last_generated : new_coupon ? Date.now() : userDetails.coupon_last_generated
             }
-            if((!body.coupon_applied && body.coupon_applied == true) || body.new_coupon){
+            if((body.coupon_applied && body.coupon_applied == true) || new_coupon){
                 db.customer.update(customer_update_object, {
                     where : {
                         id  : body.customer_id
@@ -93,13 +103,13 @@ const get_orders = async(req) =>{
         let {order_id, customer_id} = req.body;
     
         let whereObject = {
-            customer_id : customer_id
+            customerId : customer_id
         }
     
         if(order_id)
         whereObject.id = order_id;
         
-        let order_details = db.orders.findAll({
+        let order_details =await db.orders.findAll({
             where : whereObject
         })
     
