@@ -1,0 +1,64 @@
+{
+    "checkout":
+    {
+        "url" : "/orders/checkout",
+        "type" : "post",
+        "fields" : {
+            "items" : {
+                "required" : true,
+                "type" : "array"
+            },
+            "customer_id" : {
+                "required" : true
+            }
+        }
+
+    }, 
+    "complete_transaction":
+    {
+        "url" : "/orders/complete_transaction",
+        "type" : "post",
+        "fields" : {
+            "items" : {
+                "required" : true,
+                "type" : "array"
+            },
+            "customer_id" : {
+                "required" : true,
+                "type": "integer"
+            }, 
+            "total_price" : {
+                "required" : true,
+                "type": "integer"
+            },
+            "discount_percentage" : {
+                "required":false,
+                "type": "integer"
+            },
+            "coupon_applied" : {
+                "required" : false,
+                "type" : "boolean"
+            }
+        }
+
+    },
+    "get_orders":
+    {
+        "url" : "/orders/get_orders",
+        "type" : "post",
+        "fields" : {
+            "customer_id" : {
+                "required" : true,
+                "type":"integer"
+            },
+            "order_id" : {
+                "required" : false,
+                "type":"integer"
+            }
+        }
+
+    }
+
+
+
+}
